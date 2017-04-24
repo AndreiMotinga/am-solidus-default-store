@@ -9,14 +9,11 @@
   </head>
   <body class="<%= body_class %>" id="<%= @body_id || 'default' %>" data-hook="body">
 
-    <p>I'm in a layout</p>
     <div class="container">
 
       <%= render :partial => 'spree/shared/header' %>
 
       <div id="wrapper" class="row" data-hook>
-        <p>I'm in a wrapper</p>
-
 
         <%= taxon_breadcrumbs(@taxon) %>
 
