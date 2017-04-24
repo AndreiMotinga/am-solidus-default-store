@@ -1,24 +1,13 @@
-# README
+#### [default solidus store](https://am-solidus-default-store.herokuapp.com/)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Rails 5
+* Solidus 2.1
+* Solidus i18n
+* aws S3
+* Heroku
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+[/admin](https://am-solidus-default-store.herokuapp.com/admin) credentials
+```
+login: admin@example.com
+passowrd: test123
+```
