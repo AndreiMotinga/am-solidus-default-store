@@ -55,13 +55,13 @@ end
 Spree::Frontend::Config.configure do |config|
   config.use_static_preferences!
 
-  config.locale = :ru
+  config.locale = :en
 end
 
 Spree::Backend::Config.configure do |config|
   config.use_static_preferences!
 
-  config.locale = :ru
+  config.locale = :en
 end
 
 Spree::Api::Config.configure do |config|
@@ -71,5 +71,3 @@ Spree::Api::Config.configure do |config|
 end
 
 Spree.user_class = "Spree::LegacyUser"
-
-SolidusI18n::Config.available_locales = [:ru, :ro, :"en-US"] # displayed on frontend select box

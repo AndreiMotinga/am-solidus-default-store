@@ -3,7 +3,7 @@ source "https://rubygems.org"
 ruby "2.3.1"
 
 gem "autoprefixer-rails"
-gem "delayed_job_active_record"
+# gem "delayed_job_active_record"
 gem "flutie"
 gem "jquery-rails"
 gem "pg"
@@ -20,7 +20,6 @@ gem "aws-sdk", "< 2.0"
 
 gem "solidus"
 gem "solidus_auth_devise"
-gem "solidus_i18n", github: "solidusio-contrib/solidus_i18n", branch: "master"
 
 group :development do
   gem "spring"
