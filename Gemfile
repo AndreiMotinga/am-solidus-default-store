@@ -16,9 +16,9 @@ gem "sprockets", ">= 3.0.0"
 gem "uglifier"
 gem "turbolinks"
 
-gem "aws-sdk", "< 2.0"
+gem "aws-sdk"
 
-gem "solidus"
+gem "solidus", "~> 2.2.0.rc1"
 gem "solidus_auth_devise"
 
 group :development do

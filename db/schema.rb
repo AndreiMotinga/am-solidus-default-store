@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170420234600) do
+ActiveRecord::Schema.define(version: 20170427145510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -365,6 +365,7 @@ ActiveRecord::Schema.define(version: 20170420234600) do
     t.string   "number"
     t.string   "cvv_response_code"
     t.string   "cvv_response_message"
+    t.index ["number"], name: "index_spree_payments_on_number", unique: true, using: :btree
     t.index ["order_id"], name: "index_spree_payments_on_order_id", using: :btree
     t.index ["payment_method_id"], name: "index_spree_payments_on_payment_method_id", using: :btree
     t.index ["source_id", "source_type"], name: "index_spree_payments_on_source_id_and_source_type", using: :btree
@@ -483,11 +484,25 @@ ActiveRecord::Schema.define(version: 20170420234600) do
     t.string   "code"
   end
 
+  create_table "spree_promotion_code_batches", force: :cascade do |t|
+    t.integer  "promotion_id",                        null: false
+    t.string   "base_code",                           null: false
+    t.integer  "number_of_codes",                     null: false
+    t.string   "email"
+    t.string   "error"
+    t.string   "state",           default: "pending"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["promotion_id"], name: "index_spree_promotion_code_batches_on_promotion_id", using: :btree
+  end
+
   create_table "spree_promotion_codes", force: :cascade do |t|
-    t.integer  "promotion_id", null: false
-    t.string   "value",        null: false
+    t.integer  "promotion_id",            null: false
+    t.string   "value",                   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "promotion_code_batch_id"
+    t.index ["promotion_code_batch_id"], name: "index_spree_promotion_codes_on_promotion_code_batch_id", using: :btree
     t.index ["promotion_id"], name: "index_spree_promotion_codes_on_promotion_id", using: :btree
     t.index ["value"], name: "index_spree_promotion_codes_on_value", unique: true, using: :btree
   end
@@ -912,12 +927,11 @@ ActiveRecord::Schema.define(version: 20170420234600) do
     t.integer  "user_id"
     t.integer  "category_id"
     t.integer  "created_by_id"
-    t.decimal  "amount",              precision: 8, scale: 2, default: "0.0", null: false
-    t.decimal  "amount_used",         precision: 8, scale: 2, default: "0.0", null: false
-    t.decimal  "amount_authorized",   precision: 8, scale: 2, default: "0.0", null: false
+    t.decimal  "amount",            precision: 8, scale: 2, default: "0.0", null: false
+    t.decimal  "amount_used",       precision: 8, scale: 2, default: "0.0", null: false
+    t.decimal  "amount_authorized", precision: 8, scale: 2, default: "0.0", null: false
     t.string   "currency"
     t.text     "memo"
-    t.datetime "spree_store_credits"
     t.datetime "deleted_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -1137,6 +1151,17 @@ ActiveRecord::Schema.define(version: 20170420234600) do
     t.index ["track_inventory"], name: "index_spree_variants_on_track_inventory", using: :btree
   end
 
+  create_table "spree_wallet_payment_sources", force: :cascade do |t|
+    t.integer  "user_id",                             null: false
+    t.string   "payment_source_type",                 null: false
+    t.integer  "payment_source_id",                   null: false
+    t.boolean  "default",             default: false, null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["user_id", "payment_source_id", "payment_source_type"], name: "index_spree_wallet_payment_sources_on_source_and_user", unique: true, using: :btree
+    t.index ["user_id"], name: "index_spree_wallet_payment_sources_on_user_id", using: :btree
+  end
+
   create_table "spree_zone_members", force: :cascade do |t|
     t.string   "zoneable_type"
     t.integer  "zoneable_id"
@@ -1159,8 +1184,11 @@ ActiveRecord::Schema.define(version: 20170420234600) do
   add_foreign_key "spree_adjustments", "spree_orders", column: "order_id", name: "fk_spree_adjustments_order_id", on_update: :restrict, on_delete: :restrict
   add_foreign_key "spree_product_promotion_rules", "spree_products", column: "product_id"
   add_foreign_key "spree_product_promotion_rules", "spree_promotion_rules", column: "promotion_rule_id"
+  add_foreign_key "spree_promotion_code_batches", "spree_promotions", column: "promotion_id"
+  add_foreign_key "spree_promotion_codes", "spree_promotion_code_batches", column: "promotion_code_batch_id"
   add_foreign_key "spree_prototype_taxons", "spree_prototypes", column: "prototype_id"
   add_foreign_key "spree_prototype_taxons", "spree_taxons", column: "taxon_id"
   add_foreign_key "spree_shipping_method_stock_locations", "spree_shipping_methods", column: "shipping_method_id"
   add_foreign_key "spree_shipping_method_stock_locations", "spree_stock_locations", column: "stock_location_id"
+  add_foreign_key "spree_wallet_payment_sources", "spree_users", column: "user_id"
 end
