@@ -28,5 +28,6 @@ Spree.config do |config|
 
   attachment_config.each do |key, value|
     Spree::Image.attachment_definitions[:attachment][key.to_sym] = value
+    Spree::Taxon.attachment_definitions[:icon][key.to_sym] = value
   end
 end unless Rails.env.test?
