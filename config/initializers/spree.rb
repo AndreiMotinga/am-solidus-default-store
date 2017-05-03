@@ -71,3 +71,4 @@ Spree::Api::Config.configure do |config|
 end
 
 Spree.user_class = "Spree::LegacyUser"
+SolidusI18n::Config.available_locales = [:ru, :'en-US']

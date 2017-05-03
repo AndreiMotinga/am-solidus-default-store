@@ -20,6 +20,9 @@ gem "aws-sdk"
 
 gem "solidus", "~> 2.2.0.rc1"
 gem "solidus_auth_devise"
+gem "solidus_i18n", github: "solidusio-contrib/solidus_i18n", branch: "master"
+gem 'globalize', github: 'globalize/globalize'
+gem 'solidus_globalize', github: 'AndreiMotinga/solidus_globalize', branch: "fixes"
 
 group :development do
   gem "spring"
